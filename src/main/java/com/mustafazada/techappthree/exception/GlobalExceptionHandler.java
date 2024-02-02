@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<?> internalError(Exception e){
+    public ResponseEntity<?> internalError(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<>
                 (
@@ -23,12 +23,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = InvalidDTO.class)
-    public ResponseEntity<?> invalidDTO(InvalidDTO invalidDTO){
+    public ResponseEntity<?> invalidDTO(InvalidDTO invalidDTO) {
         return new ResponseEntity<>(invalidDTO.getResponseDTO(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = UserAlreadyExist.class)
-    public ResponseEntity<?> userExist(UserAlreadyExist userAlreadyExist){
-        return new ResponseEntity<>(userAlreadyExist.getResponseDTO(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> userExist(UserAlreadyExist userAlreadyExist) {
+        return new ResponseEntity<>(userAlreadyExist.getResponseDTO(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = NoSuchUserExist.class)
+    public ResponseEntity<?> noFoundUser(NoSuchUserExist noSuchUserExist) {
+        return new ResponseEntity<>(noSuchUserExist.getResponseDTO(), HttpStatus.NOT_FOUND);
     }
 }
